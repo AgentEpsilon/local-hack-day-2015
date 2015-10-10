@@ -39228,6 +39228,34 @@ const cloudinaryconfig = { //Cloudinary info
     api_key: '582658239798378',
     api_secret: 'QaLFI9Y5iaaGp7RNRFSW26svBlo'
 }
+const yandexkey = 'trnsl.1.1.20151010T211640Z.fd34901c114b9904.bda195cbc0adb403bb95e312725ef1cadf4040a5'
+
+function translateGet(func, options, context, callback){
+    var request = "https://translate.yandex.net/api/v1.5/tr.json/"+func+"?"
+    for(var key in options){
+        if(options.hasOwnProperty(key))
+            request+=key+"="+options[key]+"&"
+    }
+    request += 'key='+yandexkey
+    
+    var http = new XMLHttpRequest();
+    http.open('GET', request, true);
+
+    http.onload = function() {
+      if (http.status >= 200 && http.status < 400) {
+        var resp = http.responseText;
+        callback(resp, context)
+      }
+    };
+    http.send();
+}
+translateGet('getLangs', {'ui':'en'}, null, function(res){
+    var langs = JSON.parse(res).langs
+    for(var l in langs){
+        if(langs.hasOwnProperty(l))
+            lang.innerHTML += "<option value="+l+">"+langs[l]+"</option>"
+    }
+})
 var cloudinary = require('cloudinary')
 cloudinary.config(cloudinaryconfig)
 
@@ -39250,6 +39278,7 @@ var photo = document.querySelector('#photo')
 var startbutton = document.querySelector('#capture')
 var classes = document.querySelector('#classes')
 var classheader = document.querySelector('#classheader')
+var lang = document.querySelector('select')
 
 if (navigator.getUserMedia) {
     navigator.getUserMedia({audio: false, video: true}, function(stream) {
@@ -39318,7 +39347,12 @@ function takepicture() {
                     for(var i = 0; i < o.classes.length; i++){
                         var term = o.classes[i]
                         var prob = (o.probs[i].toPrecision(4) * 100).toString().substr(0, 5)
-                        classes.innerHTML += "<li class='tagclass'>"+term+' <span>'+prob+'%</span></li>'
+                        translateGet('translate', {'lang': 'en-'+lang.options[lang.selectedIndex].value, 'text':term}, {'term':term, 'prob':prob, 'index':i}, function(res, ctx){
+                            classes.innerHTML += 
+                            "<li class='tagclass'>"+ctx.term+" => "+
+                            JSON.parse(res).text[0]+'<span class="prob">'+
+                            ctx.prob+'%</span></li>'
+                        })
                     }
                 })
                 classheader.style.display = "none";

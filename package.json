@@ -5,7 +5,8 @@
   "main": "track.js",
   "dependencies": {
     "cloudinary": "^1.2.4",
-    "coffeeify": "^1.1.0"
+    "coffeeify": "^1.1.0",
+    "yargs": "^3.27.0"
   },
   "devDependencies": {},
   "scripts": {
