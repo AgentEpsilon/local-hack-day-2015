@@ -1,0 +1,16 @@
+{
+  "name": "local-hack-day",
+  "version": "1.0.0",
+  "description": "",
+  "main": "track.js",
+  "dependencies": {
+    "cloudinary": "^1.2.4",
+    "coffeeify": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "watchify track.js -o bundle.js"
+  },
+  "author": "Evan Miller",
+  "license": "ISC"
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clarifai Test</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <main>
+        <h1>Clarifai Webcam Classification</h1>
+        <div id="media">
+            <video autoplay mute></video>
+            <canvas style="display:none;"></canvas>
+            <img id='photo' alt="Webcam capture">
+        </div>
+        <input type="button" id="capture" value="Capture from Webcam">
+        <div id="classcont">
+            <span id='classheader'>Classes will appear here!</span>
+            <ol id="classes">
+            </ol>
+        </div>
+        </main>
+        <footer>
+            Made for <a href="https://localhackday.mlh.io">Local Hack Day</a> by Evan Miller
+        </footer>
+        <script type="text/javascript" src="bundle.js"></script>
+    </body>
+</html>
